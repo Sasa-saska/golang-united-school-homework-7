@@ -1,7 +1,10 @@
 package coverage
 
 import (
+	"fmt"
 	"os"
+	"testing"
+	"time"
 )
 
 // DO NOT EDIT THIS FUNCTION
@@ -18,3 +21,71 @@ func init() {
 
 // WRITE YOUR CODE BELOW
 
+func TestPeople_Len(t *testing.T) {
+	p := People{Person{"alex", "Egorov", time.Date(1989, 02, 16, 0, 0, 0, 0, time.Local)}}
+	if p.Len() != 1 {
+		t.Errorf("wrong length. length %d must be %d", p.Len(), len(p))
+	}
+}
+
+func TestPeople_Less(t *testing.T) {
+	p := People{
+		Person{"seva", "sidorov", time.Date(1988, 1, 1, 0, 0, 0, 0, time.UTC)},
+		Person{"misha", "kashin", time.Date(1988, 1, 1, 0, 0, 0, 0, time.UTC)},
+		Person{"vova", "egorov", time.Date(1987, 1, 1, 0, 0, 0, 0, time.UTC)},
+	}
+
+	if p.Less(0, 1) {
+		t.Errorf("wrong berthDay. length %v must be %v", false, true)
+	}
+
+}
+
+func TestPeople_Swap(t *testing.T) {
+	p := People{
+		Person{"seva", "sidorov", time.Date(1988, 1, 1, 0, 0, 0, 0, time.UTC)},
+		Person{"misha", "kashin", time.Date(1988, 1, 1, 0, 0, 0, 0, time.UTC)},
+		Person{"vova", "egorov", time.Date(1987, 1, 1, 0, 0, 0, 0, time.UTC)},
+	}
+	p.Swap(0, 1)
+	if p[0].firstName != "misha" {
+		t.Errorf("swap does not work correctly should be %v but outputs %v", "misha", p[0].lastName)
+	}
+}
+
+var m string = `1 2 3 4 5
+	6 7 8 9 10
+	11 12 13 14 15`
+
+func TestNew(t *testing.T) {
+	M, err := New(m)
+	if err != nil {
+		fmt.Print(err)
+	}
+	matr := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}
+
+	for i, v := range M.data {
+		if v != matr[i] {
+			t.Errorf("wrong element data %d, must be %d", v, matr[i])
+		}
+	}
+}
+
+func TestMatrix_Cols(t *testing.T) {
+	M, _ := New(m)
+	cols := 5
+	if len(M.Cols()) != cols {
+		t.Errorf("wrong rows, length %v must be %v", len(M.Cols()), cols)
+	}
+}
+
+func TestMatrix_Rows(t *testing.T) {
+	M, _ := New(m)
+	rows := 3
+	if len(M.Rows()) != rows {
+		t.Errorf("wrong rows, length %v must be %v", len(M.Rows()), rows)
+	}
+}
+
+func TestMatrix_Set(t *testing.T) {
+}
